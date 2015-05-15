@@ -14,7 +14,8 @@ shinyServer(function(input, output, session) {
   output$pyramid <- renderDimple({
     
     pyramid_data() %>%
-      build_pyramid()
+      build_pyramid() %>%
+      default_colors(input$color1, input$color2)
         
   })
   
