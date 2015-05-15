@@ -49,7 +49,66 @@ get_data <- function(country, year) {
 
 build_pyramid <- function(data) {
   
+  max_x <- plyr::round_any(max(data$Population), 10000, f = ceiling)
+  min_x <- plyr::round_any(min(data$Population), 10000, f = floor)
   
+  format_absolute <- function(viz) {
+    
+    if (max_x >= 1000000) {
+      tack(viz, options = list(
+        chart = htmlwidgets::JS("
+                                function(){
+                                var self = this;
+                                // x axis should be first or [0] but filter to make sure
+                                self.axes.filter(function(ax){
+                                return ax.position == 'x'
+                                })[0] // now we have our x axis set _getFormat as before
+                                ._getFormat = function () {
+                                return function(d) {
+                                return d3.format(',.0f')(Math.abs(d) / 1000000) + 'm';
+                                };
+                                };
+                                // return self to return our chart
+                                return self;
+                                }
+                                ")))
+    } else {
+      tack(viz, options = list(
+        chart = htmlwidgets::JS("
+                                function(){
+                                var self = this;
+                                // x axis should be first or [0] but filter to make sure
+                                self.axes.filter(function(ax){
+                                return ax.position == 'x'
+                                })[0] // now we have our x axis set _getFormat as before
+                                ._getFormat = function () {
+                                return function(d) {
+                                return d3.format(',.0f')(Math.abs(d) / 1000) + 'k';
+                                };
+                                };
+                                // return self to return our chart
+                                return self;
+                                }
+                                ")))
+      
+      
+      
+    }
+    
+  }
+  
+  
+  d1 <- data %>%
+     dimple(x = "Population", y = "Age", group = "Gender", type = 'bar') %>%
+        yAxis(type = "addCategoryAxis", orderRule = "Order") %>%
+        xAxis(type = "addMeasureAxis", overrideMax = max_x, overrideMin = min_x) %>%
+        add_legend() 
+  
+  d1 %>% format_absolute()
+    
+    # Here, I'll pass in some JS code to make all the values on the X-axis and in the tooltip absolute values
+    
+
   
   
   
