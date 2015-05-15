@@ -21,7 +21,11 @@ shinyUI(fluidPage(theme = shinytheme("flatly"),
     p("App author: ", 
       a("Kyle Walker, Texas Christian University.  ", 
         href = "http://personal.tcu.edu/kylewalker"), 
-      a("Code on GitHub.", href = ""))
+      a("Code on GitHub.", href = "https://github.com/walkerke/dimple-pyramid"), 
+      " This app is a work in progress and likely to change."), 
+    p("Many thanks to ", a("Kenton Russell, ", href = "https://twitter.com/timelyportfolio"), 
+      a("John Kiernander, ", href = "https://twitter.com/jkiernander"), 
+      a("Ramnath Vaidyanathan, ", href = "https://twitter.com/ramnath_vaidya"), "and the whole RStudio team!")
   ),
   mainPanel(
     dimpleOutput('pyramid', width = "100%")

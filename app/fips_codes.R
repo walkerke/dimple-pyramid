@@ -11,8 +11,9 @@ df <- url %>%
   html_table(fill = TRUE) %>%
   data.frame()
 
+df$Country <- gsub("Argentine", "Argentina", df$Country)
 
-write.csv(df, 'codes.csv')
+write.csv(df, 'codes.csv', fileEncoding = "UTF-8")
 
 # country_list <- setNames(as.list(df$FIPS), df$Country)
 
