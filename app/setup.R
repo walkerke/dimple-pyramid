@@ -121,7 +121,7 @@ build_pyramid <- function(data) {
   
   
   d1 <- data %>%
-     dimple(x = "Population", y = "Age", group = "Gender", type = 'bar', width = 600, height = 600 ) %>%
+     dimple(x = "Population", y = "Age", group = "Gender", type = 'bar', width = 800, height = 600 ) %>%
         yAxis(type = "addCategoryAxis", orderRule = "Order") %>%
         xAxis(type = "addMeasureAxis", overrideMax = max_x, overrideMin = min_x) %>%
         add_legend() 

@@ -14,10 +14,19 @@ shinyServer(function(input, output, session) {
 
   output$pyramid <- renderDimple({
     
-    pyramid_data() %>%
-      build_pyramid() %>%
-      default_colors(input$color1, input$color2)
-        
+   pyramid_data() %>%
+    build_pyramid() %>%
+    default_colors(input$color1, input$color2)
+    
+   
   })
+  
+  output$downloadPage <- downloadHandler(
+    filename = "pyramid.html", contentType = "text/plain", 
+    content = function(file) {
+      out <- pyramid_data() %>% build_pyramid() %>% default_colors(input$color1, input$color2)
+      htmlwidgets::saveWidget(out, file)
+    }
+  )
   
 })
