@@ -54,7 +54,7 @@ build_pyramid <- function(data) {
   
   format_absolute <- function(viz) {
     
-    if (max_x >= 1000000) {
+    if (max_x >= 10000000) {
       tack(viz, options = list(
         chart = htmlwidgets::JS("
                                 function(){
@@ -65,7 +65,29 @@ build_pyramid <- function(data) {
                                 })[0] // now we have our x axis set _getFormat as before
                                 ._getFormat = function () {
                                 return function(d) {
-                                return d3.format(',.0f')(Math.abs(d) / 1000000) + 'm';
+                                return d3.format('.0f')(Math.abs(d) / 1000000) + 'm';
+                                };
+                                };
+                                // return self to return our chart
+                                return self;
+                                }
+                                ")))
+      
+      
+    }
+    
+    else if (max_x >= 1000000 & max_x < 10000000) {
+      tack(viz, options = list(
+        chart = htmlwidgets::JS("
+                                function(){
+                                var self = this;
+                                // x axis should be first or [0] but filter to make sure
+                                self.axes.filter(function(ax){
+                                return ax.position == 'x'
+                                })[0] // now we have our x axis set _getFormat as before
+                                ._getFormat = function () {
+                                return function(d) {
+                                return d3.format('.1f')(Math.abs(d) / 1000000) + 'm';
                                 };
                                 };
                                 // return self to return our chart
@@ -105,8 +127,6 @@ build_pyramid <- function(data) {
         add_legend() 
   
   d1 %>% format_absolute()
-    
-    # Here, I'll pass in some JS code to make all the values on the X-axis and in the tooltip absolute values
     
 
   
